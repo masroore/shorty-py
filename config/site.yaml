@@ -1,0 +1,20 @@
+app:
+  name: Shorty
+  version: 0.0.1
+  short_id_len: 6
+
+auth:
+  username: chevron
+  password: chevron123
+
+uvicorn:
+  app: main:app
+  host: 0.0.0.0
+  port: 1971
+  log_level: trace
+  reload: FALSE
+  reload_delay: 0.25
+  workers: 8
+  limit_concurrency: 10
+  limit_max_requests: 10
+  proxy_headers: FALSE
