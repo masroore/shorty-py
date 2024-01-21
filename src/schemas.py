@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 
 
-class URLBase(BaseModel):
+class LinkBase(BaseModel):
     target_url: str
 
 
-class URL(URLBase):
+class Link(LinkBase):
     is_active: bool
     clicks: int
 
@@ -13,6 +13,6 @@ class URL(URLBase):
         orm_mode = True
 
 
-class URLInfo(URL):
+class LinkInfo(Link):
     url: str
     admin_url: str

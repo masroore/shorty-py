@@ -6,3 +6,6 @@ python-dotenv
 validators
 uvicorn[standard]
 url-normalize
+pyyaml
+ua-parser
+user-agents
