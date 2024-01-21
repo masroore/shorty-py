@@ -23,7 +23,7 @@ def get_admin_info(db_url: models.URL) -> schemas.URLInfo:
     return db_url
 
 
-def raise_not_found(request):
+def raise_not_found(request: Request):
     raise HTTPException(status_code=404, detail=f"URL '{request.url}' doesn't exist")
 
 
@@ -36,7 +36,10 @@ def get_db():
 
 
 @app.post("/url", response_model=schemas.URLInfo)
-def create_url(url: schemas.URLBase, db: Session = Depends(get_db)):
+def create_url(
+    url: schemas.URLBase,
+    db: Session = Depends(get_db),
+):
     if not validators.url(url.target_url):
         raise HTTPException(status_code=400, detail="Your provided URL is not valid")
     url.target_url = url_normalize.url_normalize(url.target_url)
@@ -46,7 +49,9 @@ def create_url(url: schemas.URLBase, db: Session = Depends(get_db)):
 
 @app.get("/{url_key}")
 def forward_to_target_url(
-    url_key: str, request: Request, db: Session = Depends(get_db)
+    url_key: str,
+    request: Request,
+    db: Session = Depends(get_db),
 ):
     if db_url := crud.get_db_url_by_key(db=db, url_key=url_key):
         crud.update_db_clicks(db=db, db_url=db_url)
