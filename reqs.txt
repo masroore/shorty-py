@@ -1,0 +1,8 @@
+fastapi
+pydantic
+pydantic-settings
+sqlalchemy
+python-dotenv
+validators
+uvicorn[standard]
+url-normalize
