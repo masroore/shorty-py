@@ -10,7 +10,7 @@ class Link(LinkBase):
     clicks: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class LinkInfo(Link):

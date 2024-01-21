@@ -23,6 +23,9 @@ class Browser(Base):
 
     id = Column(Integer, primary_key=True)
     user_agent = Column(String, unique=True, index=True)
+    browser_family = Column(String, nullable=True)
+    os = Column(String, nullable=True)
+    device = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.now)
 
 
@@ -31,6 +34,6 @@ class Visit(Base):
 
     id = Column(Integer, primary_key=True)
     link_id = Column(Integer, index=True)
-    browser_id = Column(Integer, nullable=True, index=True)
+    browser_id = Column(Integer, nullable=True)
     ip_address = Column(String)
     created_at = Column(DateTime, default=datetime.datetime.now)

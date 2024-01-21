@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from ua_parser import user_agent_parser
 
 from src import keygen, models, schemas
 
@@ -26,17 +27,26 @@ def get_browser(db: Session, ua_string: str) -> models.Browser:
         db.query(models.Browser).filter(models.Browser.user_agent == ua_string).first()
     )
     if not browser:
-        browser = models.Browser(user_agent=ua_string)
+        agent = user_agent_parser.Parse(ua_string)
+        browser = models.Browser(
+            user_agent=ua_string,
+            browser_family="%s/%s"
+            % (agent["user_agent"]["family"], agent["user_agent"]["major"]),
+            os="%s/%s" % (agent["os"]["family"], agent["os"]["major"]),
+            device="%s/%s" % (agent["device"]["brand"], agent["device"]["family"]),
+        )
         db.add(browser)
         db.commit()
     return browser
 
 
 def register_visit(
-    db: Session, link: models.Link, ip_addr: str, ua_string: str
+    db: Session, link: models.Link, ip_addr: str | None, ua_string: str | None
 ) -> models.Visit:
-    browser = get_browser(db, ua_string)
-    visit = models.Visit(link_id=link.id, browser_id=browser.id, ip_address=ip_addr)
+    browser = get_browser(db, ua_string) if ua_string else None
+    visit = models.Visit(
+        link_id=link.id, browser_id=browser.id if browser else None, ip_address=ip_addr
+    )
     db.add(visit)
     db.commit()
     return visit
