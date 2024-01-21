@@ -4,9 +4,10 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    env_name: str = "Local"
+    env_name: str = "local"
     base_url: str = "http://localhost:8000"
     db_url: str = "sqlite:///./shortener.db"
+    short_code_len: int = 5
 
     class Config:
         env_file = ".env"

@@ -50,7 +50,8 @@ def forward_to_target_url(
     if link := crud.get_link_by_short_code(db=db, short_code=short_code):
         crud.update_db_clicks(db=db, link=link)
         ua_string = request.headers.get("user-agent")
-        ip_addr = request.client.host
+        # ip_addr = request.client.host
+        ip_addr = request.headers.get("CF-Connecting-IP")
         crud.register_visit(db=db, link=link, ip_addr=ip_addr, ua_string=ua_string)
         return RedirectResponse(link.target_url)
     else:

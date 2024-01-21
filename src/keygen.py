@@ -3,7 +3,7 @@ import string
 
 from sqlalchemy.orm import Session
 
-from . import crud
+from src import crud, config
 
 
 def create_random_key(length: int = 5) -> str:
@@ -12,7 +12,7 @@ def create_random_key(length: int = 5) -> str:
 
 
 def create_unique_random_key(db: Session) -> str:
-    key = create_random_key()
-    while crud.get_link_by_short_code(db, key):
-        key = create_random_key()
+    key = create_random_key(config.get_settings().short_code_len)
+    while crud.short_code_exists(db, key):
+        key = create_random_key(config.get_settings().short_code_len)
     return key

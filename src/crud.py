@@ -60,6 +60,10 @@ def get_link_by_short_code(db: Session, short_code: str) -> models.Link:
     )
 
 
+def short_code_exists(db: Session, short_code: str) -> bool:
+    return db.query(models.Link.id).filter_by(key=short_code).first() is not None
+
+
 def get_link_by_secret_key(db: Session, secret_key: str) -> models.Link:
     return (
         db.query(models.Link)
