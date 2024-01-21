@@ -1,11 +1,7 @@
 app:
   name: Shorty
   version: 0.0.1
-  short_id_len: 6
-
-auth:
-  username: chevron
-  password: chevron123
+  short_url_len: 5
 
 uvicorn:
   app: main:app
