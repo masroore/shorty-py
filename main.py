@@ -1,5 +1,4 @@
 import url_normalize
-import validators
 from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
@@ -32,8 +31,7 @@ def create_url(
     url: schemas.LinkBase,
     db: Session = Depends(get_db),
 ):
-    if not validators.url(url.target_url):
-        raise HTTPException(status_code=400, detail="Your provided URL is not valid")
+    # if not validators.url(url.target_url): raise HTTPException(status_code=400, detail="Your provided URL is not valid")
     url.target_url = url_normalize.url_normalize(url.target_url)
     db_url = crud.get_link_by_url(db=db, url=url.target_url)
     if not db_url:
